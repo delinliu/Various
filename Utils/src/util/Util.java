@@ -46,4 +46,28 @@ public class Util {
 		result = s.substring(0, pos + 3) + result;
 		return result;
 	}
+
+	public static int min(int[] arr, int size) {
+		int min = Integer.MAX_VALUE;
+		for (int i = 0; i < size; i++) {
+			if (arr[i] < min) {
+				min = arr[i];
+			}
+		}
+		return min;
+	}
+
+	public static int max(int[] arr, int size) {
+		int max = Integer.MIN_VALUE;
+		for (int i = 0; i < size; i++) {
+			if (arr[i] > max) {
+				max = arr[i];
+			}
+		}
+		return max;
+	}
+
+	public static int max(int[] arr) {
+		return max(arr, arr.length);
+	}
 }

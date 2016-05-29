@@ -20,6 +20,11 @@ public class _SortTest {
 		list.add(new BubbleSort());
 		list.add(new MergeSort());
 		list.add(new MergeNoRecursionSort());
+		list.add(new HeapSort());
+		list.add(new QuickSort());
+		list.add(new CountingSort());
+		list.add(new RadixSort());
+		list.add(new BucketSort());
 
 		for (Sort sort : list) {
 			int[] arrCopy = arr.clone();
