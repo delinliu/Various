@@ -3,6 +3,8 @@ package sort;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Util;
+
 public class _SortTimeTest {
 
 	public static void main(String[] args) {
@@ -33,32 +35,17 @@ public class _SortTimeTest {
 			amount *= 10;
 		}
 		System.out.println(s.getClass() + " costs " + (time)
-				+ "ms for sorting " + formatInteger(amount) + " numbers.");
+				+ "ms for sorting " + Util.formatInteger(amount) + " numbers.");
 	}
 
 	private static long sortTime(Sort s, int amount) {
 		long time;
-		int[] arr = _SortTest.createRandomArr(amount);
+		int[] arr = Util.createRandomArr(amount);
 		int[] arrCopy = arr.clone();
 		long begin = System.currentTimeMillis();
 		s.sort(arrCopy);
 		long end = System.currentTimeMillis();
 		time = end - begin;
 		return time;
-	}
-
-	private static String formatInteger(int num) {
-		if (num < 0) {
-			return "" + num;
-		}
-		String s = "" + num;
-		String result = "";
-		int pos = s.length() - 3;
-		while (pos > 0) {
-			result = "," + s.substring(pos, pos + 3) + result;
-			pos -= 3;
-		}
-		result = s.substring(0, pos + 3) + result;
-		return result;
 	}
 }
