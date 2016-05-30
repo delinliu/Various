@@ -24,7 +24,8 @@ public class BucketSort implements Sort {
 		int bucketSize[] = new int[bucketAmount];
 		for (int i = 0; i < size; i++) {
 			int val = arr[i];
-			int pos = (val - minVal) * bucketAmount / (maxVal - minVal + 1);
+			int pos = (int) ((long) (val - minVal) * bucketAmount / (maxVal
+					- minVal + 1));
 			bucketArr[pos][bucketSize[pos]] = val;
 			bucketSize[pos]++;
 		}

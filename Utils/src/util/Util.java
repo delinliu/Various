@@ -3,7 +3,7 @@ package util;
 public class Util {
 
 	public static int[] createRandomArr(int amount) {
-		return createRandomArr(amount, 100000);
+		return createRandomArr(amount, 100000000);
 	}
 
 	public static int[] createRandomArr(int amount, int maxNumber) {

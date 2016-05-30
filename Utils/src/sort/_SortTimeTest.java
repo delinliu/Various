@@ -9,7 +9,8 @@ public class _SortTimeTest {
 
 	public static void main(String[] args) {
 
-		int maxAmount = 10000000;
+		int amount = 10000000;
+		int maxNumber = 100000000;
 		List<Sort> list = new ArrayList<Sort>();
 		list.add(new CountingSort());
 		list.add(new RadixSort());
@@ -19,16 +20,16 @@ public class _SortTimeTest {
 		list.add(new MergeNoRecursionSort());
 		list.add(new HeapSort());
 		for (Sort sort : list) {
-			sortTime(sort, maxAmount);
+			sortTime(sort, amount, maxNumber);
 		}
 
-		int maxAmount2 = 100000;
+		int amount2 = 100000;
 		List<Sort> list2 = new ArrayList<Sort>();
 		list2.add(new InsertionSort());
 		list2.add(new SelectionSort());
 		list2.add(new BubbleSort());
 		for (Sort sort : list2) {
-			sortTime(sort, maxAmount2);
+			sortTime(sort, amount2, maxNumber);
 		}
 
 	}
@@ -39,7 +40,7 @@ public class _SortTimeTest {
 		long time = 0;
 
 		while (amount < maxAmount && time < maxTime) {
-			time = sortTime(s, amount);
+			time = sortTime(s, amount, 1000000);
 			amount *= 10;
 		}
 		System.out.println(s.getClass() + " costs " + (time)
@@ -47,9 +48,9 @@ public class _SortTimeTest {
 				+ " numbers.");
 	}
 
-	private static long sortTime(Sort s, int amount) {
+	private static long sortTime(Sort s, int amount, int maxNumber) {
 		long time;
-		int[] arr = Util.createRandomArr(amount);
+		int[] arr = Util.createRandomArr(amount, maxNumber);
 		int[] arrCopy = arr.clone();
 		long begin = System.currentTimeMillis();
 		s.sort(arrCopy);
