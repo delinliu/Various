@@ -5,4 +5,50 @@
 	<select id="getDict" resultType="map">
 		select * from ${tableName};
 	</select>
+	
+	<insert id="createContract"  useGeneratedKeys="true" keyProperty="ContractID">
+		insert into contract(Number, Name, FinancialFlow, IsForeignContract,
+			Description, SubjectObjects, SubjectObjectOther, FundsType,
+			Departments, Operator, ProjectNumber, BudgetNumber,
+			Money, Currency, StartDate, EndDate, TargetCompanyName,
+			ArchiveMaterials, ArchiveMaterialOther)
+		values(#{Number}, #{Name}, #{FinancialFlow}, #{IsForeignContract},
+			#{Description}, #{SubjectObjects}, #{SubjectObjectOther}, #{FundsType},
+			#{Departments}, #{Operator}, #{ProjectNumber}, #{BudgetNumber},
+			#{Money}, #{Currency}, #{StartDate}, #{EndDate}, #{TargetCompanyName},
+			#{ArchiveMaterials}, #{ArchiveMaterialOther});
+	</insert>
+
+	<select id="getContracts" resultType="map">
+		select ContractId, Number, Name, Operator from contract;
+	</select>
+
+	<select id="getContract" resultType="map">
+		select * from contract
+		where ContractID=#{ContractID};
+	</select>
+	
+	<insert id="createPayNode">
+		insert into paynode(ContractID,Type,ExpectedMoney,ExpectedCurrency,
+			PayCondition,PayDate,PayCredential,ActualMoney,
+			ActualCurrency,PayType,IsCredentialFiled,Composition)
+		values(#{ContractID},#{Type},#{ExpectedMoney},#{ExpectedCurrency},
+			#{PayCondition},#{PayDate},#{PayCredential},#{ActualMoney},
+			#{ActualCurrency},#{PayType},#{IsCredentialFiled},#{Composition});
+	</insert>
+	
+	<insert id="createReceiveNode">
+		insert into receivenode(ContractID,Type,ExpectedMoney,ExpectedCurrency,
+			ReceiveCondition,ReceiveDate,ActualMoney,ActualCurrency,InvoiceState)
+		values(#{ContractID},#{Type},#{ExpectedMoney},#{ExpectedCurrency},
+			#{ReceiveCondition},#{ReceiveDate},#{ActualMoney},#{ActualCurrency},#{InvoiceState});
+	</insert>
+	<select id="getPayNodes" resultType="map">
+		select * from paynode
+		where ContractID=#{ContractID};
+	</select>
+	<select id="getReceiveNodes" resultType="map">
+		select * from receivenode
+		where ContractID=#{ContractID};
+	</select>
 </mapper>

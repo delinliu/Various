@@ -1,11 +1,3 @@
-$(function() {
-	initDatePicker();
-	initAddPayNodeListener();
-	initAddReceiveNodeListener();
-	emptyAllNodes();
-	initCreateListener();
-	simulate();
-});
 
 function simulate() {
 	$.ajax({
@@ -17,7 +9,6 @@ function simulate() {
 }
 
 function fillContract(parameters) {
-	console.log(parameters);
 	$('#number').text(parameters['Number']);
 	$('#name').text(parameters['Name']);
 	$('#description').text(parameters['Description']);
@@ -40,6 +31,50 @@ function fillContract(parameters) {
 	}
 	for(var i=0; i<parameters['ArchiveMaterials'].length; i++){ 
 		$('input[name=archive-material][value=' + parameters['ArchiveMaterials'][i]['ArchiveMaterialNumber'] + ']').attr('checked', true);
+	}
+	fillPayTimes(parameters['PayTimes']);
+	fillReceiveTimes(parameters['ReceiveTimes']);
+}
+
+function fillPayTimes(list){
+	if(!list) return;
+	for (var i = 0; i < list.length; i++) {
+		addPayNode();
+		var pay = list[i];
+		var nodes = $('[data-pay-node]');
+		var node = nodes[nodes.length-1];
+		$(node).find('[data-expected-money]').text(pay['ExpectedMoney']);
+		$(node).find('[data-actual-money]').text(pay['ActualMoney']);
+		$(node).find('[data-pay-condition]').text(pay['PayCondition']);
+		$(node).find('[data-pay-credential]').text(pay['PayCredential']);
+		$(node).find('[data-composition]').text(pay['Composition']);
+		$(node).find('[data-pay-date]').val(pay['PayDate']);
+		$(node).find('[data-pay-node-type][value=' + pay['Type'] + ']').attr('checked', true);
+		$(node).find('[data-pay-type][value=' + pay['PayType'] + ']').attr('checked', true);
+		$(node).find('[data-actual-currency][value=' + pay['ActualCurrency'] + ']').attr('checked', true);
+		$(node).find('[data-expected-currency][value=' + pay['ExpectedCurrency'] + ']').attr('checked', true);
+		$(node).find('[data-is-credential-filed][value=' + pay['IsCredentialFiled'] + ']').attr('checked', true);
+		$(node).find('[data-pay-created-time]').text(pay['CreatedTime']);
+	} 
+}
+
+function fillReceiveTimes(list){
+	if(!list) return;
+	for (var i = 0; i < list.length; i++) {
+		addReceiveNode();
+		var receive = list[i];
+		var nodes = $('[data-receive-node]');
+		var node = nodes[nodes.length-1];
+		$(node).find('[data-expected-money]').text(receive['ExpectedMoney']); 
+		$(node).find('[data-actual-money]').text(receive['ActualMoney']);
+		$(node).find('[data-receive-condition]').text(receive['ReceiveCondition']);
+		$(node).find('[data-receive-date]').val(receive['ReceiveDate']);
+		$(node).find('[data-type][value=' + receive['Type'] + ']').attr('checked', true);  
+		$(node).find('[data-actual-currency][value=' + receive['ActualCurrency'] + ']').attr('checked', true);
+		$(node).find('[data-expected-currency][value=' + receive['ExpectedCurrency'] + ']').attr('checked', true);
+		$(node).find('[data-invoice-state][value=' + receive['InvoiceState'] + ']').attr('checked', true);
+		$(node).find('[data-receive-invoice-time]').text(receive['InvoiceTime']);
+		
 	}
 }
 
@@ -219,7 +254,7 @@ function payNodeHtml() {
 			+ '" value=2 data-pay-type>决算款'
 			+ '		</td>'
 			+ '		<td class="table-key-width">支付申请时间</td>'
-			+ '		<td class="table-value-width">系统自动生成</td>'
+			+ '		<td class="table-value-width" data-pay-created-time>系统自动生成</td>'
 			+ '	</tr>'
 			+ ' <tr>'
 			+ '		<td class="table-key-width">付款依据是否归档</td>'
@@ -310,7 +345,7 @@ function receiveNodeHtml() {
 			+ receiveNodeAmount
 			+ '" value=1 data-invoice-state>未开</td>'
 			+ '		<td class="table-key-width">支付申请时间</td>'
-			+ '		<td class="table-value-width">系统自动生成</td>'
+			+ '		<td class="table-value-width" data-receive-invoice-time>系统自动生成</td>'
 			+ '	</tr>'
 			+ '</table>';
 	return html;
@@ -329,11 +364,8 @@ function createButtonClicked() {
 		$.extend(parameters, checkPaytimes());
 		$.extend(parameters, checkReceiveTimes());
 
-		console.log(parameters);
-		console.log(JSON.stringify(parameters))
 		createContract(parameters);
 	} catch (e) {
-		console.log(e);
 		var element = e.element;
 		var message = e.message;
 		$('#error-hint-text').text(message);
@@ -355,7 +387,9 @@ function createContract(parameters) {
 	$.ajax({
 		url : '/contract/create-contract',
 		type : 'post',
-		data : parameters,
+		contentType : 'application/json',
+		data : JSON.stringify(parameters),
+		dataType : 'json',
 		success : function(data) {
 			console.log(data);
 		}

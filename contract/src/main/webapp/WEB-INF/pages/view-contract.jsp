@@ -18,21 +18,22 @@
 <script
 	src="<%=request.getContextPath()%>/js/bootstrap-datetimepicker.zh-CN.js"
 	charset="UTF-8"></script>
+<script src="<%=request.getContextPath()%>/js/util.js"></script>
 <script src="<%=request.getContextPath()%>/js/contract.js"></script>
-<script src="<%=request.getContextPath()%>/js/create-contract.js"></script>
+<script src="<%=request.getContextPath()%>/js/view-contract.js"></script>
 </head>
 <body>
 	<div class="container text-center">
 		<div class="row">
 			<ul class="nav nav-pills nav-stacked col-md-2" role="tablist"
 				style="padding-top: 50px">
-				<li role="presentation" class="active"><a
+				<li role="presentation"><a
 					href="<%=request.getContextPath()%>/create-contract">新建合同登记表</a></li>
 				<li role="presentation"><a
 					href="<%=request.getContextPath()%>/list-contracts">查看合同登记表</a></li>
 			</ul>
 			<div class="text-center col-md-10">
-				<h1>新建合同登记表</h1>
+				<h1 id="title"></h1>
 				<table class=" table-bordered"
 					style="vertical-align: middle; text-align: center;">
 					<tr>
@@ -293,9 +294,6 @@
 					</tr>
 					<tr id=""></tr>
 				</table>
-				<div class="text-center" style="margin-top: 30px">
-					<button id="create-button" class="btn btn-primary">创建合同登记表</button>
-				</div>
 			</div>
 			<div style="height: 100px"></div>
 			<div id="error-hint-div" class="alert alert-danger" role="alert"

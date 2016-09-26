@@ -39,7 +39,22 @@
 		}
 	],
 	"ArchiveMaterialOther": "Other",
-	"payTimes": [
+	"PayTimes": [
+		{
+			"Type": 3,
+			"ExpectedMoney": "1,000,000.00",
+			"ExpectedCurrency": 0,
+			"PayCondition": "Condition",
+			"PayDate": "2010-01-11",
+			"PayCredential": "Credential",
+			"ActualMoney": "1,000,000.00",
+			"ActualCurrency": 0,
+			"PayType": 0,
+			"CreatedTime": "2010-01-11 00:00:00",
+			"IsCredentialFiled": true,
+			"Composition": "Composition"
+		}
+		,
 		{
 			"Type": 0,
 			"ExpectedMoney": "1,000,000.00",
@@ -57,7 +72,7 @@
 	],
 	"ReceiveTimes": [
 		{
-			"Type": 0,
+			"Type": 2,
 			"ExpectedMoney": "1,000,000.00",
 			"ExpectedCurrency": 0,
 			"ReceiveCondition": "Condition",

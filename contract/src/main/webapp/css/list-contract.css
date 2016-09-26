@@ -1,0 +1,12 @@
+.contract-view {
+	background: #337ab7;
+	color: white;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.5s;
+	padding: 5px;
+}
+
+.contract-view:hover {
+	cursor: pointer
+}
