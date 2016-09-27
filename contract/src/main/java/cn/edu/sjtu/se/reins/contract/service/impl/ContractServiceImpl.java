@@ -145,11 +145,9 @@ public class ContractServiceImpl implements ContractService {
 
 	@Override
 	public void commentContract(Map<String, Object> map) throws Exception {
-		System.out.println(map);
 		int commentType = Integer.parseInt(String.valueOf(map.get("CommentType")));
 		int contractID = Integer.parseInt(String.valueOf(map.get("ContractID")));
 		String username = Util.loginUsername();
-		System.out.println(username);
 		Map<String, Object> param = new HashMap<>();
 		param.put("Username", username);
 		param.put("Comments", String.valueOf(map.get("Comment")));

@@ -34,6 +34,14 @@ function fillContract(parameters) {
 	}
 	fillPayTimes(parameters['PayTimes']);
 	fillReceiveTimes(parameters['ReceiveTimes']);
+	
+	var commentsArr = ['PreRegisterContractManagerComments', 'PreRegisterProjectManagerComments',
+	                   'FormalRegisterContractManagerComments', 'FormalRegisterProjectManagerComments'];
+	for(var i=0; i<commentsArr.length; i++){
+		if(parameters[commentsArr[i]]){
+			$('#' + commentsArr[i]).text(parameters[commentsArr[i]]);
+		}
+	}
 }
 
 function fillPayTimes(list){

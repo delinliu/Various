@@ -296,6 +296,28 @@
 					</tr>
 					<tr id=""></tr>
 				</table>
+				<table class=" table-bordered"
+					style="display:none; vertical-align: middle; text-align: center;">
+					<tr style="height:200px"> 
+						<td class="table-key-width" rowspan=2 colspan=1>合同预登记审批记录</td>
+						<td class="table-key-width" colspan=1>合同管理员审核意见</td>
+						<td contenteditable=true id="PreRegisterContractManagerComments" colspan=2>待审核</td>
+					</tr>
+					<tr style="height:200px"> 
+						<td class="table-key-width" colspan=1>项目分管领导审核意见</td>
+						<td contenteditable=true id="PreRegisterProjectManagerComments" colspan=2>待审核</td>
+					</tr> 
+					
+					<tr style="height:200px"> 
+						<td class="table-key-width" rowspan=2 colspan=1>合同正式登记审批记录</td>
+						<td class="table-key-width" colspan=1>合同管理员审核意见</td>
+						<td contenteditable=true id="FormalRegisterContractManagerComments" colspan=2>待审核</td>
+					</tr>
+					<tr style="height:200px"> 
+						<td class="table-key-width" colspan=1>项目分管领导审核意见</td>
+						<td contenteditable=true id="FormalRegisterProjectManagerComments" colspan=2>待审核</td>
+					</tr>
+				</table>
 				<div class="text-center" style="margin-top: 30px">
 					<button id="create-button" class="btn btn-primary">创建合同登记表</button>
 				</div>
