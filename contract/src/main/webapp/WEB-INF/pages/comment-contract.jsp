@@ -21,6 +21,7 @@
 <script src="<%=request.getContextPath()%>/js/util.js"></script>
 <script src="<%=request.getContextPath()%>/js/contract.js"></script>
 <script src="<%=request.getContextPath()%>/js/view-contract.js"></script>
+<script src="<%=request.getContextPath()%>/js/comment-contract.js"></script>
 </head>
 <body>
 	<div class="container text-center">
@@ -295,6 +296,18 @@
 					</tr>
 					<tr id=""></tr>
 				</table>
+				
+				<table class=" table-bordered"
+					style="vertical-align: middle; text-align: center;">
+					<tr style="height:400px"> 
+						<td class="table-key-width" id="comment-td-1">审核</td>
+						<td class="table-key-width" id="comment-td-2">审核</td>
+						<td contenteditable=true id="comment-td-3"></td>
+					</tr>
+				</table>
+				<div class="text-center" style="margin-top: 30px">
+					<button id="comment-button" class="btn btn-primary">提交审核意见</button>
+				</div>
 			</div>
 			<div style="height: 100px"></div>
 			<div id="error-hint-div" class="alert alert-danger" role="alert"
@@ -307,9 +320,10 @@
 	</div>
 	<script>
 	$(function() {
-		emptyAllNodes();
+		emptyAllNodes(); 
 		var ContractID = getLastPathFromUrl();
-		getContractFromServer(ContractID);
+		getContractFromServer(ContractID, initCommentTable);
+		initCommentListener(); 
 	});
 	</script>
 </body>

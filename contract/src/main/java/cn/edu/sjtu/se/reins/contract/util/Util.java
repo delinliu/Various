@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
 public class Util {
 	private Util() {
 	}
@@ -34,5 +37,15 @@ public class Util {
 		int month = date.getMonth() + 1;
 		int day = date.getDate();
 		return year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
+	}
+
+	public static String loginUsername() throws Exception {
+		try {
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
+			return userDetails.getUsername();
+		} catch (Exception e) {
+			throw new Exception("你的登录已过期，请重新登录。", e);
+		}
 	}
 }

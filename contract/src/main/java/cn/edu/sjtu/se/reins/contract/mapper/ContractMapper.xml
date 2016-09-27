@@ -20,7 +20,10 @@
 	</insert>
 
 	<select id="getContracts" resultType="map">
-		select ContractId, Number, Name, Operator from contract;
+		select ContractID, Number, Name, Operator,
+			PreRegisterContractManager, PreRegisterProjectManager,
+			FormalRegisterContractManager, FormalRegisterProjectManager
+		from contract;
 	</select>
 
 	<select id="getContract" resultType="map">
@@ -51,4 +54,29 @@
 		select * from receivenode
 		where ContractID=#{ContractID};
 	</select>
+	
+	<update id="updatePreRegisterContractManagerComments">
+		update contract
+		set PreRegisterContractManagerComments=#{Comments},
+			PreRegisterContractManager=#{Username}
+		where ContractID=#{ContractID};
+	</update>
+	<update id="updatePreRegisterProjectManagerComments">
+		update contract
+		set PreRegisterProjectManagerComments=#{Comments},
+			PreRegisterProjectManager=#{Username}
+		where ContractID=#{ContractID};
+	</update>
+	<update id="updateFormalRegisterContractManagerComments">
+		update contract
+		set FormalRegisterContractManagerComments=#{Comments},
+			FormalRegisterContractManager=#{Username}
+		where ContractID=#{ContractID};
+	</update>
+	<update id="updateFormalRegisterProjectManagerComments">
+		update contract
+		set FormalRegisterProjectManagerComments=#{Comments},
+			FormalRegisterProjectManager=#{Username}
+		where ContractID=#{ContractID};
+	</update>
 </mapper>

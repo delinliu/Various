@@ -6,3 +6,13 @@
 	<a href="<%=request.getContextPath()%>/logout" style="float: right">注销</a>
 	<span style="float: right">你好，<security:authentication property="principal.username" />&nbsp;&nbsp;&nbsp;</span>
 </div>
+<script>
+var globalIsContractManager = false;
+var globalIsProjectManager = false;
+<security:authorize access="hasRole('ROLE_CONTRACT_MANAGER')">
+globalIsContractManager = true;
+</security:authorize>
+<security:authorize access="hasRole('ROLE_PROJECT_MANAGER')">
+globalIsProjectManager = true;
+</security:authorize>
+</script>

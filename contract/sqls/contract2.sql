@@ -5,6 +5,7 @@ use contract;
 
 create table contract(
 	`ContractID` int auto_increment primary key,
+    `CreatedUsername` varchar(128), # 创建本合同的人
     `Number` varchar(128),
     `Name` varchar(128),
     `FinancialFlow` int,
@@ -23,7 +24,15 @@ create table contract(
     `EndDate` datetime,
     `TargetCompanyName` varchar(128),
     `ArchiveMaterials` varchar(128),
-    `ArchiveMaterialOther` varchar(128)
+    `ArchiveMaterialOther` varchar(128),
+    `PreRegisterContractManagerComments` varchar(1024),
+    `PreRegisterContractManager` varchar(128),
+    `PreRegisterProjectManagerComments` varchar(1024),
+    `PreRegisterProjectManager` varchar(128),
+    `FormalRegisterContractManagerComments` varchar(1024),
+    `FormalRegisterContractManager` varchar(128),
+    `FormalRegisterProjectManagerComments` varchar(1024),
+    `FormalRegisterProjectManager` varchar(128)
 );
 
 create table paynode(
@@ -41,6 +50,10 @@ create table paynode(
     `CreatedTime` datetime default now(),
     `IsCredentialFiled` boolean,
     `Composition` varchar(128),
+    `ContractManagerComments` varchar(1024),
+    `ContractManager` varchar(128),
+    `ProjectManagerComments` varchar(1024),
+    `ProjectManager` varchar(128),
     foreign key (`ContractID`) references contract(`ContractID`)
 );
 
@@ -56,6 +69,10 @@ create table receivenode(
     `ActualCurrency` int,
     `InvoiceState` int,
     `InvoiceTime` datetime default now(),
+    `ContractManagerComments` varchar(1024),
+    `ContractManager` varchar(128),
+    `ProjectManagerComments` varchar(1024),
+    `ProjectManager` varchar(128),
     foreign key (`ContractID`) references contract(`ContractID`)
 );
 
@@ -105,7 +122,3 @@ insert into account_role_rel(AccountID, RoleID)
 values (2, 1), (2, 2),
 (3, 1), (4, 1),
 (5, 2), (6, 2);
-
-#select * from contract;
-#select * from paynode;
-#select * from receivenode;

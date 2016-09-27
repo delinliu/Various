@@ -142,4 +142,35 @@ public class ContractServiceImpl implements ContractService {
 		contract.put("ReceiveTimes", receiveNodes);
 		return contract;
 	}
+
+	@Override
+	public void commentContract(Map<String, Object> map) throws Exception {
+		System.out.println(map);
+		int commentType = Integer.parseInt(String.valueOf(map.get("CommentType")));
+		int contractID = Integer.parseInt(String.valueOf(map.get("ContractID")));
+		String username = Util.loginUsername();
+		System.out.println(username);
+		Map<String, Object> param = new HashMap<>();
+		param.put("Username", username);
+		param.put("Comments", String.valueOf(map.get("Comment")));
+		param.put("ContractID", contractID);
+		switch (commentType) {
+		case 1: // 预登记审批：合同管理员审核意见
+			contractMapper.updatePreRegisterContractManagerComments(param);
+			break;
+		case 2: // 预登记审批：项目分管领导审核意见
+			contractMapper.updatePreRegisterProjectManagerComments(param);
+			break;
+		case 3: // 正式登记审批：合同管理员审核意见
+			contractMapper.updateFormalRegisterContractManagerComments(param);
+			break;
+		case 4: // 正式登记审批：项目分管领导审核意见
+			contractMapper.updateFormalRegisterProjectManagerComments(param);
+			break;
+		case 5: // 付款节点审批：合同管理员审核意见
+			break;
+		case 6: // 收款节点审批：合同管理员审核意见
+			break;
+		}
+	}
 }

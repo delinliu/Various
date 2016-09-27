@@ -1,10 +1,4 @@
-$(function() {
-	emptyAllNodes();
-	var ContractID = getLastPathFromUrl();
-	getContractFromServer(ContractID);
-});
-
-function getContractFromServer(ContractID) {
+function getContractFromServer(ContractID, callback) {
 	$.ajax({
 		url : '/contract/get-contract',
 		data : {
@@ -12,6 +6,9 @@ function getContractFromServer(ContractID) {
 		},
 		success : function(data) {
 			showContract(data);
+			if(callback){
+				callback();
+			}
 		}
 	})
 }
@@ -35,5 +32,4 @@ function disableEdit() {
 	$('[data-remove-receive-node]').remove();
 	$('#add-pay-node').remove();
 	$('#add-receive-node').remove();
-	
 }

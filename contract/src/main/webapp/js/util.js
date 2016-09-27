@@ -11,6 +11,18 @@ function getLastPathFromUrl() {
 	return first >= 0 ? url.substring(first + 1, last + 1) : '';
 }
 
+function getSearchArgs(key){
+	var search = location.search.replace(/\?/g, '')
+	var items = search.split('&');
+	for(var i=0; i<items.length; i++){
+		var pair = items[i].split('=');
+		if(pair.length === 2 && pair[0] === key){
+			return pair[1];
+		}
+	}
+	return '';
+}
+
 (function($) {
 	$
 			.extend({

@@ -12,4 +12,6 @@ public interface ContractService {
 	List<Map<String, Object>> getContracts();
 
 	Map<String, Object> getContract(int contractID);
+	
+	void commentContract(Map<String, Object> map) throws Exception;
 }

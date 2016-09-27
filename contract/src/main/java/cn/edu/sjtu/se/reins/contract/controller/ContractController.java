@@ -42,6 +42,11 @@ public class ContractController {
 		return "/WEB-INF/pages/view-contract.jsp";
 	}
 
+	@RequestMapping(value = "/comment-contract/{ContractID}", method = RequestMethod.GET)
+	public String commentContractPage() {
+		return "/WEB-INF/pages/comment-contract.jsp";
+	}
+
 	@RequestMapping(value = "/create-contract", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public Map<String, Object> createContract(@RequestBody Map<String, Object> parameters) {
@@ -82,6 +87,18 @@ public class ContractController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Util.createErrorMap("获取合同表失败，请稍后再试或联系管理员。");
+		}
+	}
+
+	@RequestMapping(value = "/comment-contract", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public Map<String, Object> commentContract(@RequestBody Map<String, Object> parameters) {
+		try {
+			contractServicecImpl.commentContract(parameters);
+			return Util.createMap(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Util.createErrorMap("提交失败，请稍后再试或联系管理员。");
 		}
 	}
 

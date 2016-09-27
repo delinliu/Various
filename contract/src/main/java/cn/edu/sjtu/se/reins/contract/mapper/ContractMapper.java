@@ -20,4 +20,9 @@ public interface ContractMapper {
 
 	List<Map<String, Object>> getPayNodes(@Param("ContractID") int contractID);
 	List<Map<String, Object>> getReceiveNodes(@Param("ContractID") int contractID);
+
+	void updatePreRegisterContractManagerComments(Map<String, Object> map);
+	void updatePreRegisterProjectManagerComments(Map<String, Object> map);
+	void updateFormalRegisterContractManagerComments(Map<String, Object> map);
+	void updateFormalRegisterProjectManagerComments(Map<String, Object> map);
 }

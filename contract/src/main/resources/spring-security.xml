@@ -25,6 +25,10 @@
 			access="!hasRole('ROLE_ANONYMOUS')" />
 		<security:intercept-url pattern="/get-contract"
 			access="!hasRole('ROLE_ANONYMOUS')" />
+		<security:intercept-url pattern="/comment-contract"
+			access="!hasRole('ROLE_ANONYMOUS')" />
+		<security:intercept-url pattern="/comment-contract/*"
+			access="!hasRole('ROLE_ANONYMOUS')" />
 		<security:intercept-url pattern="/js/**"
 			access="permitAll" />
 		<security:intercept-url pattern="/css/**"
