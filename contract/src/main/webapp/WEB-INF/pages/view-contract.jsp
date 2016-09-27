@@ -24,6 +24,7 @@
 </head>
 <body>
 	<div class="container text-center">
+		<jsp:include page="header.jsp"></jsp:include>
 		<div class="row">
 			<ul class="nav nav-pills nav-stacked col-md-2" role="tablist"
 				style="padding-top: 50px">

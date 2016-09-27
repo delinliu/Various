@@ -22,6 +22,11 @@ public class ContractController {
 	@Autowired
 	private ContractService contractServicecImpl;
 
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout() {
+		return "/WEB-INF/pages/logout.jsp";
+	}
+
 	@RequestMapping(value = "/create-contract", method = RequestMethod.GET)
 	public String createContractPage() {
 		return "/WEB-INF/pages/create-contract.jsp";

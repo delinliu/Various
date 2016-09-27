@@ -1,12 +1,16 @@
-.contract-view {
+.operator-wrapper {
 	background: #337ab7;
 	color: white;
 	border-radius: 4px;
 	cursor: pointer;
 	transition: all 0.5s;
-	padding: 5px;
+	padding-left: 7px;
+	padding-right: 7px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-right: 5px;
 }
 
-.contract-view:hover {
+.operator-wrapper:hover {
 	cursor: pointer
 }

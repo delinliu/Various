@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.sjtu.se.reins.contract.mapper.AccountMapper">
+
+	<select id="getAccount" resultType="map">
+		select * from account
+		where Username=#{Username};
+	</select>
+	
+	<select id="getRoles" resultType="map">
+		select role.RoleName from role
+		left join account_role_rel
+		on role.RoleID = account_role_rel.RoleID
+		where account_role_rel.AccountID = #{AccountID};
+	</select>
+	
+</mapper>

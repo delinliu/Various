@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
@@ -23,6 +25,7 @@
 </head>
 <body>
 	<div class="container text-center">
+		<jsp:include page="header.jsp"></jsp:include>
 		<div class="row">
 			<ul class="nav nav-pills nav-stacked col-md-2" role="tablist"
 				style="padding-top: 50px">
@@ -82,7 +85,7 @@
 							<input type="checkbox" name="department" value=2>电子部<br>
 							<input type="checkbox" name="department" value=3>软件部</td>
 						<td class="table-key-width">合同经办人</td>
-						<td id="operator" class="table-value-width" contentEditable=true></td>
+						<td id="operator" class="table-value-width" contentEditable=true><security:authentication property="principal.username" /></td>
 					</tr>
 					<tr>
 						<td class="table-key-width">课题号</td>

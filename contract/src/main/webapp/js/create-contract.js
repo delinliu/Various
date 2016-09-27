@@ -4,5 +4,5 @@ $(function() {
 	initAddReceiveNodeListener();
 	emptyAllNodes();
 	initCreateListener();
-	simulate();
+//	simulate();
 });

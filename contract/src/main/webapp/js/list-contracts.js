@@ -37,7 +37,8 @@ function showContracts(data) {
 }
 
 function contractProcess(value, row, index) {
-	return '<div class="contract-view">查看</div>';
+	return '<span class="operator-wrapper contract-view">查看</span>' 
+		+ '<span class="operator-wrapper contract-view">审核</span>';
 }
 
 function viewContract(e, value, row, index) {
