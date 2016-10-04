@@ -3,15 +3,16 @@
 <mapper namespace="cn.edu.sjtu.se.reins.contract.mapper.AccountMapper">
 
 	<select id="getAccount" resultType="map">
-		select * from account
-		where Username=#{Username};
+		select EmployeeNumber as Username, LoginPassword as Password, EmployeeEmail as Email
+		from employee
+		where EmployeeNumber=#{Username};
 	</select>
 	
 	<select id="getRoles" resultType="map">
-		select role.RoleName from role
+		select contract_role.RoleName from contract_role
 		left join account_role_rel
-		on role.RoleID = account_role_rel.RoleID
-		where account_role_rel.AccountID = #{AccountID};
+		on contract_role.RoleID = account_role_rel.RoleID
+		where account_role_rel.EmployeeNumber = #{Username};
 	</select>
 	
 </mapper>

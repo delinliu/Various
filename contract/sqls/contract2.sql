@@ -1,7 +1,7 @@
-drop database contract;
-create database contract;
 
-use contract;
+use testdb;
+
+start transaction;
 
 create table contract(
 	`ContractID` int auto_increment primary key,
@@ -76,49 +76,51 @@ create table receivenode(
     foreign key (`ContractID`) references contract(`ContractID`)
 );
 
-create table `account`(
-	`AccountID` int auto_increment primary key,
-    `Username` varchar(128) unique key,
-    `Password` varchar(128),
-    `Email` varchar(128)
-);
+#create table `account`(
+#	`AccountID` int auto_increment primary key,
+#    `Username` varchar(128) unique key,
+#    `Password` varchar(128),
+#    `Email` varchar(128)
+#);
 
-create table `role`(
+create table `contract_role`(
 	`RoleID` int auto_increment primary key,
     `RoleName` varchar(128)
 );
 
 create table `account_role_rel`(
-	`AccountID` int,
+	`EmployeeNumber` varchar(128),
     `RoleID` int,
-    foreign key (`AccountID`) references `account`(`AccountID`),
-    foreign key (`RoleID`) references `role`(`RoleID`)
+    foreign key (`EmployeeNumber`) references `employee`(`EmployeeNumber`),
+    foreign key (`RoleID`) references `contract_role`(`RoleID`)
 );
 
 # 没有审核权限
-insert into account(AccountID, Username, Password, Email)
-values (1, 'delin', '123456', 'ldl434020@126.com');
+insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
+values ('delin', '123456', 'ldl434020@126.com');
 
 # 全部权限
-insert into account(AccountID, Username, Password, Email)
-values (2, 'admin', '123456', null);
+insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
+values ('admin', '123456', 'ldl434020@126.com');
 
 # 合同管理员
-insert into account(AccountID, Username, Password, Email)
-values (3, 'ContractMng1', '123456', null);
-insert into account(AccountID, Username, Password, Email)
-values (4, 'ContractMng2', '123456', null);
+insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
+values ('ContractMng1', '123456', 'ldl434020@126.com');
+insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
+values ('ContractMng2', '123456', 'ldl434020@126.com');
 
 # 项目分管领导
-insert into account(AccountID, Username, Password, Email)
-values (5, 'ProjectMng1', '123456', null);
-insert into account(AccountID, Username, Password, Email)
-values (6, 'ProjectMng2', '123456', null);
+insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
+values ('ProjectMng1', '123456', 'ldl434020@126.com');
+insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
+values ('ProjectMng2', '123456', 'ldl434020@126.com');
 
-insert into role(RoleID, RoleName)
-values (1, 'ROLE_CONTRACT_MANAGER'), (2, 'ROLE_PROJECT_MANAGER');
+insert into contract_role(RoleID, RoleName)
+values (1, 'ROLE_CONTRACT_MANAGER'), (2, 'ROLE_PROJECT_MANAGER'), (3, 'ROLE_OPERATOR');
 
-insert into account_role_rel(AccountID, RoleID)
-values (2, 1), (2, 2),
-(3, 1), (4, 1),
-(5, 2), (6, 2);
+insert into account_role_rel(EmployeeNumber, RoleID)
+values ('admin', 1), ('admin', 2),
+('ContractMng1', 1), ('ContractMng2', 1),
+('ProjectMng1', 2), ('ProjectMng2', 2);
+
+commit;

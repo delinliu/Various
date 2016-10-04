@@ -30,8 +30,7 @@ public class MyLoginManager implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found or password is wrong.");
 		}
-		int accountID = (int) user.get("AccountID");
-		List<Map<String, Object>> roles = accountMapper.getRoles(accountID);
+		List<Map<String, Object>> roles = accountMapper.getRoles(username);
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 		for (Map<String, Object> role : roles) {
 			setAuths.add(new SimpleGrantedAuthority(String.valueOf(role.get("RoleName"))));
