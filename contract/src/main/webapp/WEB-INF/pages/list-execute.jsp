@@ -25,7 +25,7 @@
 <script src="<%=request.getContextPath()%>/js/bootstrap-table.js"
 	charset="UTF-8"></script>
 <script src="<%=request.getContextPath()%>/js/util.js"></script>
-<script src="<%=request.getContextPath()%>/js/list-register.js"
+<script src="<%=request.getContextPath()%>/js/list-execute.js"
 	charset="UTF-8"></script>
 </head>
 <body>

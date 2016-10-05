@@ -65,6 +65,7 @@ function fillPayTimes(list){
 		$(node).find('[data-expected-currency][value=' + pay['ExpectedCurrency'] + ']').attr('checked', true);
 		$(node).find('[data-is-credential-filed][value=' + pay['IsCredentialFiled'] + ']').attr('checked', true);
 		$(node).find('[data-pay-created-time]').text(pay['CreatedTime']);
+		$(node).attr('data-pay-node', pay['PayNodeID']);
 	} 
 }
 
@@ -84,7 +85,7 @@ function fillReceiveTimes(list){
 		$(node).find('[data-expected-currency][value=' + receive['ExpectedCurrency'] + ']').attr('checked', true);
 		$(node).find('[data-invoice-state][value=' + receive['InvoiceState'] + ']').attr('checked', true);
 		$(node).find('[data-receive-invoice-time]').text(receive['InvoiceTime']);
-		
+		$(node).attr('data-receive-node', receive['ReceiveNodeID']); 
 	}
 }
 
@@ -376,21 +377,25 @@ function createButtonClicked() {
 		$('#create-button').off('click');
 		createContract(parameters);
 	} catch (e) {
-		var element = e.element;
-		var message = e.message;
-		$('#error-hint-text').text(message);
-		var hint = $('#error-hint-div');
-		hint.show();
-		hint.css('position', 'absolute');
-		hint.css('top', element.offset().top - 25);
-		hint.css('left', element.offset().left - 15);
-		$('html,body').animate({
-			scrollTop : hint.offset().top
-		}, 200);
-		$('#error-hint-close').off('click').on('click', function() {
-			$('#error-hint-div').hide();
-		});
+		showErrorHint(e);
 	}
+}
+
+function showErrorHint(e){
+	var element = e.element;
+	var message = e.message;
+	$('#error-hint-text').text(message);
+	var hint = $('#error-hint-div');
+	hint.show();
+	hint.css('position', 'absolute');
+	hint.css('top', element.offset().top - 25);
+	hint.css('left', element.offset().left - 15);
+	$('html,body').animate({
+		scrollTop : hint.offset().top
+	}, 200);
+	$('#error-hint-close').off('click').on('click', function() {
+		$('#error-hint-div').hide();
+	});
 }
 
 function createContract(parameters) {

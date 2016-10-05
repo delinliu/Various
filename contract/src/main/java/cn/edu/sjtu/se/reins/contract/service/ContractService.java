@@ -14,9 +14,12 @@ public interface ContractService {
 
 	List<Map<String, Object>> getVerifyContracts() throws Exception;
 	List<Map<String, Object>> getRegisterContracts() throws Exception;
-	
-	
+	List<Map<String, Object>> getExecuteContracts() throws Exception;
+
 	Map<String, Object> getContract(int contractID);
 	
 	void commentContract(Map<String, Object> map) throws Exception;
+
+	void executePay(Map<String, Object> map) throws Exception;
+	void executeReceive(Map<String, Object> map) throws Exception;
 }

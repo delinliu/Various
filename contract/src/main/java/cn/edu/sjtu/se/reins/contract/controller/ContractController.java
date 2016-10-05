@@ -72,6 +72,16 @@ public class ContractController {
 		return "/WEB-INF/pages/register-contract.jsp";
 	}
 
+	@RequestMapping(value = "/pay-register/{PayNodeID}", method = RequestMethod.GET)
+	public String payRegister() {
+		return "/WEB-INF/pages/pay-register.jsp";
+	}
+
+	@RequestMapping(value = "/receive-register/{ReceiveNodeID}", method = RequestMethod.GET)
+	public String receiveRegister() {
+		return "/WEB-INF/pages/receive-register.jsp";
+	}
+
 	@RequestMapping(value = "/create-contract", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public Map<String, Object> createContract(@RequestBody Map<String, Object> parameters) {
@@ -95,6 +105,30 @@ public class ContractController {
 		}
 	}
 
+	@RequestMapping(value = "/execute-pay", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public Map<String, Object> executePay(@RequestBody Map<String, Object> parameters) {
+		try {
+			contractServicecImpl.executePay(parameters);
+			return Util.createMap(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Util.createErrorMap("操作失败，请稍后再试或联系管理员。");
+		}
+	}
+
+	@RequestMapping(value = "/execute-receive", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public Map<String, Object> executeReceive(@RequestBody Map<String, Object> parameters) {
+		try {
+			contractServicecImpl.executeReceive(parameters);
+			return Util.createMap(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Util.createErrorMap("操作失败，请稍后再试或联系管理员。");
+		}
+	}
+
 	@RequestMapping(value = "/get-contracts", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getContracts() {
@@ -111,6 +145,17 @@ public class ContractController {
 	public Map<String, Object> getVerifyContracts() {
 		try {
 			return Util.createMap(contractServicecImpl.getVerifyContracts());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Util.createErrorMap("获取合同表失败，请稍后再试或联系管理员。");
+		}
+	}
+
+	@RequestMapping(value = "/get-execute-contracts", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getExecuteContracts() {
+		try {
+			return Util.createMap(contractServicecImpl.getExecuteContracts());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Util.createErrorMap("获取合同表失败，请稍后再试或联系管理员。");

@@ -147,4 +147,38 @@
 		set State = #{State}
 		where ReceiveNodeID = #{ReceiveNodeID}
 	</update>
+	
+	<select id="getPayNodeByStateAndOperator" resultType="map">
+		select contract.ContractID, contract.Number, contract.Name, contract.Operator,
+			paynode.*
+		from paynode
+		left join contract on contract.ContractID=paynode.ContractID
+		where paynode.State=#{State} and (contract.Operator=#{Operator} or contract.CreatedUsername=#{Operator});
+	</select>
+	
+	<select id="getReceiveNodeByStateAndOperator" resultType="map">
+		select contract.ContractID, contract.Number, contract.Name, contract.Operator,
+			receivenode.*
+		from receivenode
+		left join contract on contract.ContractID=receivenode.ContractID
+		where receivenode.State=#{State} and (contract.Operator=#{Operator} or contract.CreatedUsername=#{Operator});
+	</select>
+	<update id="updatePayNode">
+		update paynode
+		set ActualMoney=#{ActualMoney},
+			ActualCurrency=#{ActualCurrency},
+			PayType=#{PayType},
+			IsCredentialFiled=#{IsCredentialFiled},
+			Composition=#{Composition},
+			CreatedTime=now()
+		where PayNodeID=#{PayNodeID};
+	</update>
+	<update id="updateReceiveNode">
+		update receivenode
+		set ActualMoney=#{ActualMoney},
+			ActualCurrency=#{ActualCurrency},
+			InvoiceState=#{InvoiceState},
+			InvoiceTime=now()
+		where ReceiveNodeID=#{ReceiveNodeID};
+	</update>
 </mapper>

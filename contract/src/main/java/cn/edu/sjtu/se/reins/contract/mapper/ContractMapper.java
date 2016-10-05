@@ -40,5 +40,11 @@ public interface ContractMapper {
 	
 	Map<String, Object> getFirstReceiveNode(@Param("State") int state, @Param("ContractID") int contractID);
 	void updateReceiveNodeState(@Param("State") int state, @Param("ReceiveNodeID") int receiveNodeID);
+
+	List<Map<String, Object>> getPayNodeByStateAndOperator(@Param("State") int state, @Param("Operator") String operator);
+	List<Map<String, Object>> getReceiveNodeByStateAndOperator(@Param("State") int state, @Param("Operator") String operator);
+
+	void updatePayNode(Map<String, Object> map);
+	void updateReceiveNode(Map<String, Object> map);
 	
 }

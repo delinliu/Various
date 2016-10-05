@@ -32,6 +32,36 @@ public class ContractServiceImpl implements ContractService {
 			return null;
 		}
 	}
+
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void executePay(Map<String, Object> map) throws Exception {
+		int payNodeID = (int) map.get("PayNodeID");
+		Map<String, Object> node = new HashMap<>();
+		node.put("PayNodeID", payNodeID);
+		node.put("ActualMoney", String.valueOf(map.get("ActualMoney")));
+		node.put("ActualCurrency", Integer.parseInt(String.valueOf(map.get("ActualCurrency"))));
+		node.put("PayType", Integer.parseInt(String.valueOf(map.get("PayType"))));
+		node.put("IsCredentialFiled", Boolean.parseBoolean(String.valueOf(map.get("IsCredentialFiled"))));
+		node.put("Composition", String.valueOf(map.get("Composition")));
+		contractMapper.updatePayNode(node);
+		contractMapper.updatePayNodeState(2, payNodeID);
+	}
+	
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void executeReceive(Map<String, Object> map) throws Exception {
+		int receiveNodeID = (int) map.get("ReceiveNodeID");
+		Map<String, Object> node = new HashMap<>();
+		node.put("ReceiveNodeID", receiveNodeID);
+		node.put("ActualMoney", String.valueOf(map.get("ActualMoney")));
+		node.put("ActualCurrency", Integer.parseInt(String.valueOf(map.get("ActualCurrency"))));
+		node.put("InvoiceState", Integer.parseInt(String.valueOf(map.get("InvoiceState"))));
+		contractMapper.updateReceiveNode(node);
+		contractMapper.updateReceiveNodeState(2, receiveNodeID);
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -53,11 +83,6 @@ public class ContractServiceImpl implements ContractService {
 				node.put("PayCondition", String.valueOf(payNode.get("PayCondition")));
 				node.put("PayDate", Util.string2date(String.valueOf(payNode.get("PayDate"))));
 				node.put("PayCredential", String.valueOf(payNode.get("PayCredential")));
-//				node.put("ActualMoney", String.valueOf(payNode.get("ActualMoney")));
-//				node.put("ActualCurrency", Integer.parseInt(String.valueOf(payNode.get("ActualCurrency"))));
-//				node.put("PayType", Integer.parseInt(String.valueOf(payNode.get("PayType"))));
-//				node.put("IsCredentialFiled", Boolean.parseBoolean(String.valueOf(payNode.get("IsCredentialFiled"))));
-//				node.put("Composition", String.valueOf(payNode.get("Composition")));
 				contractMapper.createPayNode(node);
 			}
 		}
@@ -71,9 +96,6 @@ public class ContractServiceImpl implements ContractService {
 				node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ExpectedCurrency"))));
 				node.put("ReceiveCondition", String.valueOf(receiveNode.get("ReceiveCondition")));
 				node.put("ReceiveDate", Util.string2date(String.valueOf(receiveNode.get("ReceiveDate"))));
-//				node.put("ActualMoney", String.valueOf(receiveNode.get("ActualMoney")));
-//				node.put("ActualCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ActualCurrency"))));
-//				node.put("InvoiceState", Integer.parseInt(String.valueOf(receiveNode.get("InvoiceState"))));
 				contractMapper.createReceiveNode(node);
 			}
 		}
@@ -164,7 +186,7 @@ public class ContractServiceImpl implements ContractService {
 		contract.put("ReceiveTimes", receiveNodes);
 		return contract;
 	}
-
+	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void commentContract(Map<String, Object> map) throws Exception {
@@ -230,6 +252,14 @@ public class ContractServiceImpl implements ContractService {
 	public List<Map<String, Object>> getRegisterContracts() throws Exception {
 		String username = Util.loginUsername();
 		List<Map<String, Object>> list = contractMapper.getContractByStateAndOperator(2, username);
+		return list;
+	}
+	@Override
+	public List<Map<String, Object>> getExecuteContracts() throws Exception {
+		String username = Util.loginUsername();
+		List<Map<String, Object>> list = new ArrayList<>();
+		list.addAll(contractMapper.getPayNodeByStateAndOperator(1, username));
+		list.addAll(contractMapper.getReceiveNodeByStateAndOperator(1, username));
 		return list;
 	}
 }
