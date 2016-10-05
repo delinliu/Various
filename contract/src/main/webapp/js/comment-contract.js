@@ -8,10 +8,12 @@ function initCommentTable(data) {
 	case 0:
 		tdID = 'PreRegisterContractManagerComments';
 		pageTitle = '合同管理员预审批';
+		hideNumber();
 		break;
 	case 1:
 		tdID = 'PreRegisterProjectManagerComments';
 		pageTitle = '项目分管领导预审批';
+		hideNumber();
 		break;
 	case 2:
 		break;
@@ -40,6 +42,12 @@ function initCommentTable(data) {
 	});
 	$('#title').text(pageTitle);
 } 
+
+function hideNumber(){
+	$('#number').parent().children()[0].remove();
+	$('#number').remove();
+	$('#name').attr('colspan', 3);
+}
 
 function initCommentListener() {
 	$('#comment-button').off('click').on('click', submitComment);
