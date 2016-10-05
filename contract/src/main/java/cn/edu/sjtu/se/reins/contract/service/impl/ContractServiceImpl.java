@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.edu.sjtu.se.reins.contract.mapper.ContractMapper;
 import cn.edu.sjtu.se.reins.contract.service.ContractService;
@@ -33,6 +34,7 @@ public class ContractServiceImpl implements ContractService {
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void createContract(Map<String, Object> map) throws Exception {
 		Map<String, Object> param = new HashMap<>();
 		param.put("Number", String.valueOf(map.get("Number")));
@@ -57,35 +59,39 @@ public class ContractServiceImpl implements ContractService {
 		contractMapper.createContract(param);
 		long contractID = (long) param.get("ContractID");
 		List<Map<String, Object>> payNodes = (List<Map<String, Object>>) map.get("PayTimes");
-		for (Map<String, Object> payNode : payNodes) {
-			Map<String, Object> node = new HashMap<>();
-			node.put("ContractID", contractID);
-			node.put("Type", Integer.parseInt(String.valueOf(payNode.get("Type"))));
-			node.put("ExpectedMoney", String.valueOf(payNode.get("ExpectedMoney")));
-			node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(payNode.get("ExpectedCurrency"))));
-			node.put("PayCondition", String.valueOf(payNode.get("PayCondition")));
-			node.put("PayDate", Util.string2date(String.valueOf(payNode.get("PayDate"))));
-			node.put("PayCredential", String.valueOf(payNode.get("PayCredential")));
-			node.put("ActualMoney", String.valueOf(payNode.get("ActualMoney")));
-			node.put("ActualCurrency", Integer.parseInt(String.valueOf(payNode.get("ActualCurrency"))));
-			node.put("PayType", Integer.parseInt(String.valueOf(payNode.get("PayType"))));
-			node.put("IsCredentialFiled", Boolean.parseBoolean(String.valueOf(payNode.get("IsCredentialFiled"))));
-			node.put("Composition", String.valueOf(payNode.get("Composition")));
-			contractMapper.createPayNode(node);
+		if (payNodes != null) {
+			for (Map<String, Object> payNode : payNodes) {
+				Map<String, Object> node = new HashMap<>();
+				node.put("ContractID", contractID);
+				node.put("Type", Integer.parseInt(String.valueOf(payNode.get("Type"))));
+				node.put("ExpectedMoney", String.valueOf(payNode.get("ExpectedMoney")));
+				node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(payNode.get("ExpectedCurrency"))));
+				node.put("PayCondition", String.valueOf(payNode.get("PayCondition")));
+				node.put("PayDate", Util.string2date(String.valueOf(payNode.get("PayDate"))));
+				node.put("PayCredential", String.valueOf(payNode.get("PayCredential")));
+				node.put("ActualMoney", String.valueOf(payNode.get("ActualMoney")));
+				node.put("ActualCurrency", Integer.parseInt(String.valueOf(payNode.get("ActualCurrency"))));
+				node.put("PayType", Integer.parseInt(String.valueOf(payNode.get("PayType"))));
+				node.put("IsCredentialFiled", Boolean.parseBoolean(String.valueOf(payNode.get("IsCredentialFiled"))));
+				node.put("Composition", String.valueOf(payNode.get("Composition")));
+				contractMapper.createPayNode(node);
+			}
 		}
 		List<Map<String, Object>> receiveNodes = (List<Map<String, Object>>) map.get("ReceiveTimes");
-		for (Map<String, Object> receiveNode : receiveNodes) {
-			Map<String, Object> node = new HashMap<>();
-			node.put("ContractID", contractID);
-			node.put("Type", Integer.parseInt(String.valueOf(receiveNode.get("Type"))));
-			node.put("ExpectedMoney", String.valueOf(receiveNode.get("ExpectedMoney")));
-			node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ExpectedCurrency"))));
-			node.put("ReceiveCondition", String.valueOf(receiveNode.get("ReceiveCondition")));
-			node.put("ReceiveDate", Util.string2date(String.valueOf(receiveNode.get("ReceiveDate"))));
-			node.put("ActualMoney", String.valueOf(receiveNode.get("ActualMoney")));
-			node.put("ActualCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ActualCurrency"))));
-			node.put("InvoiceState", Integer.parseInt(String.valueOf(receiveNode.get("InvoiceState"))));
-			contractMapper.createReceiveNode(node);
+		if (receiveNodes != null) {
+			for (Map<String, Object> receiveNode : receiveNodes) {
+				Map<String, Object> node = new HashMap<>();
+				node.put("ContractID", contractID);
+				node.put("Type", Integer.parseInt(String.valueOf(receiveNode.get("Type"))));
+				node.put("ExpectedMoney", String.valueOf(receiveNode.get("ExpectedMoney")));
+				node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ExpectedCurrency"))));
+				node.put("ReceiveCondition", String.valueOf(receiveNode.get("ReceiveCondition")));
+				node.put("ReceiveDate", Util.string2date(String.valueOf(receiveNode.get("ReceiveDate"))));
+				node.put("ActualMoney", String.valueOf(receiveNode.get("ActualMoney")));
+				node.put("ActualCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ActualCurrency"))));
+				node.put("InvoiceState", Integer.parseInt(String.valueOf(receiveNode.get("InvoiceState"))));
+				contractMapper.createReceiveNode(node);
+			}
 		}
 	}
 

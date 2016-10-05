@@ -9,10 +9,14 @@
 <script>
 var globalIsContractManager = false;
 var globalIsProjectManager = false;
+var globalIsOperator = false;
 <security:authorize access="hasRole('ROLE_CONTRACT_MANAGER')">
 globalIsContractManager = true;
 </security:authorize>
 <security:authorize access="hasRole('ROLE_PROJECT_MANAGER')">
 globalIsProjectManager = true;
+</security:authorize>
+<security:authorize access="hasRole('ROLE_OPERATOR')">
+globalIsOperator = true;
 </security:authorize>
 </script>

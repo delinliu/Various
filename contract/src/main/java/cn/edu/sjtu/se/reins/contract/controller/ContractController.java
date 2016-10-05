@@ -22,6 +22,11 @@ public class ContractController {
 	@Autowired
 	private ContractService contractServicecImpl;
 
+	@RequestMapping(value = "/pre-register", method = RequestMethod.GET)
+	public String preRegister() {
+		return "/WEB-INF/pages/pre-register.jsp";
+	}
+
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		return "/WEB-INF/pages/logout.jsp";

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
 	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 	xsi:schemaLocation="
@@ -21,7 +21,7 @@
 	<mvc:annotation-driven />
 	<context:component-scan base-package="cn.edu.sjtu.se.reins.contract.**"></context:component-scan>
 
-	<mvc:default-servlet-handler /> 
+	<mvc:default-servlet-handler />
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -52,6 +52,12 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<mybatis:scan base-package="cn.edu.sjtu.se.reins.contract.mapper" />
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="txManager" />
 
 	<!-- <mongo:mongo host="${mongo.url}" port="${mongo.port}" /> -->
 	<!-- <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate"> -->

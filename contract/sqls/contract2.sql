@@ -121,6 +121,7 @@ values (1, 'ROLE_CONTRACT_MANAGER'), (2, 'ROLE_PROJECT_MANAGER'), (3, 'ROLE_OPER
 insert into account_role_rel(EmployeeNumber, RoleID)
 values ('admin', 1), ('admin', 2),
 ('ContractMng1', 1), ('ContractMng2', 1),
-('ProjectMng1', 2), ('ProjectMng2', 2);
+('ProjectMng1', 2), ('ProjectMng2', 2),
+('delin', 3);
 
 commit;

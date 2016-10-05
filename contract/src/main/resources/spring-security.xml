@@ -37,7 +37,7 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/logout"
 			access="permitAll" />
-		<security:intercept-url pattern="/**" access="denyAll" />
+		<security:intercept-url pattern="/**" access="!hasRole('ROLE_ANONYMOUS')" />
 
 		<security:form-login default-target-url="/create-contract"></security:form-login>
 

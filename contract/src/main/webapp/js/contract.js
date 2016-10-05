@@ -469,12 +469,12 @@ function checkDescription() {
 	};
 }
 
-function checkBoxEmpty(name, errorMessage) {
+function checkBoxEmpty(name, errorMessage, defaultEmpty) {
 	var values = [];
 	$('input[name="' + name + '"]:checked').each(function() {
 		values.push(parseInt($(this).val()));
 	});
-	if (!values.length) {
+	if (!defaultEmpty && !values.length) {
 		throw {
 			element : $('input[name="' + name + '"]').closest('td'),
 			message : errorMessage,
@@ -526,9 +526,11 @@ function checkOperator() {
 	}
 }
 
-function checkProjectNumber() {
+
+
+function checkProjectNumber(defaultEmpty) {
 	var projectNumber = $('#project-number').text();
-	if (!/^PM-[0-9a-zA-Z]{5}-20[0-9a-zA-Z]{2}-[0-9a-zA-Z]{3}$/
+	if ((!defaultEmpty || projectNumber) && !/^PM-[0-9a-zA-Z]{5}-20[0-9a-zA-Z]{2}-[0-9a-zA-Z]{3}$/
 			.test(projectNumber)) {
 		throw {
 			element : $('#project-number'),
@@ -540,9 +542,9 @@ function checkProjectNumber() {
 	};
 }
 
-function checkBudgetNumber() {
+function checkBudgetNumber(defaultEmpty) {
 	var budgetNumber = $('#budget-number').text();
-	if (!/^BM-[0-9a-zA-Z]{5}-20[0-9a-zA-Z]{2}-[0-9a-zA-Z]{4}$/
+	if ((!defaultEmpty || budgetNumber) && !/^BM-[0-9a-zA-Z]{5}-20[0-9a-zA-Z]{2}-[0-9a-zA-Z]{4}$/
 			.test(budgetNumber)) {
 		throw {
 			element : $('#budget-number'),
@@ -638,8 +640,8 @@ function checkTargetCompanyName() {
 	};
 }
 
-function checkArchiveMaterial() {
-	var archiveMaterial = checkBoxEmpty('archive-material', '请勾选合同签订归档材料');
+function checkArchiveMaterial(defaultEmpty) {
+	var archiveMaterial = checkBoxEmpty('archive-material', '请勾选合同签订归档材料', defaultEmpty);
 	var archiveMaterialOther = $('#archive-material-other').val();
 	if (archiveMaterial.indexOf(-1) >= 0 && !archiveMaterialOther) {
 		throw {
