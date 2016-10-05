@@ -27,13 +27,9 @@
 	<div class="container text-center">
 		<jsp:include page="header.jsp"></jsp:include>
 		<div class="row">
-			<ul class="nav nav-pills nav-stacked col-md-2" role="tablist"
-				style="padding-top: 50px">
-				<li role="presentation"><a
-					href="<%=request.getContextPath()%>/create-contract">新建合同登记表</a></li>
-				<li role="presentation"><a
-					href="<%=request.getContextPath()%>/list-contracts">查看合同登记表</a></li>
-			</ul>
+			<jsp:include page="nav.jsp">
+				<jsp:param name="pageTitle" value="comment-contract"/>  
+			</jsp:include>
 			<div class="text-center col-md-10">
 				<h1 id="title"></h1>
 				<table class=" table-bordered"
