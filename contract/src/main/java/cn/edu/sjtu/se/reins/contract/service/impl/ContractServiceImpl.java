@@ -191,6 +191,20 @@ public class ContractServiceImpl implements ContractService {
 		case 4: // 正式登记审批：项目分管领导审核意见
 			param.put("State", 5);
 			contractMapper.updateFormalRegisterProjectManagerComments(param);
+			switch((int)contract.get("FinancialFlow")){
+			case 0: // 入账合同
+				Map<String, Object> receivenode = contractMapper.getFirstReceiveNode(0, contractID);
+				if(receivenode != null){
+					contractMapper.updateReceiveNodeState(1, (int)receivenode.get("ReceiveNodeID"));
+				}
+				break;
+			case 1: // 出账合同
+				Map<String, Object> paynode = contractMapper.getFirstPayNode(0, contractID);
+				if(paynode != null){
+					contractMapper.updatePayNodeState(1, (int)paynode.get("PayNodeID"));
+				}
+				break;
+			}
 			break;
 		default:
 			throw new Exception("审批失败，请稍后再试");

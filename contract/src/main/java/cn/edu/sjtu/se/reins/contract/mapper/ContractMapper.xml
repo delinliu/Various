@@ -119,4 +119,32 @@
 			State=#{State}
 		where ContractID=#{ContractID};
 	</update>
+	
+	<select id="getFirstPayNode" resultType="map">
+		select *
+		from paynode
+		where paynode.State = #{State} and paynode.ContractID = #{ContractID}
+		order by PayDate asc
+		limit 1;
+	</select>
+	
+	<update id="updatePayNodeState">
+		update paynode
+		set State = #{State}
+		where PayNodeID = #{PayNodeID}
+	</update>
+	
+	<select id="getFirstReceiveNode" resultType="map">
+		select *
+		from receivenode
+		where receivenode.State = #{State} and receivenode.ContractID = #{ContractID}
+		order by ReceiveDate asc
+		limit 1;
+	</select>
+	
+	<update id="updateReceiveNodeState">
+		update receivenode
+		set State = #{State}
+		where ReceiveNodeID = #{ReceiveNodeID}
+	</update>
 </mapper>

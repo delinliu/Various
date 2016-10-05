@@ -11,6 +11,9 @@
 	<li role="presentation"
 		<%="list-register".equals(request.getParameter("pageTitle")) ? "class=\"active\"" : ""%>><a
 		href="<%=request.getContextPath()%>/list-register">登记</a></li>
+	<li role="presentation"
+		<%="list-execute".equals(request.getParameter("pageTitle")) ? "class=\"active\"" : ""%>><a
+		href="<%=request.getContextPath()%>/list-execute">执行</a></li>
 	
 	<security:authorize access="hasRole('ROLE_CONTRACT_MANAGER') || hasRole('ROLE_PROJECT_MANAGER')">
 	<li role="presentation"

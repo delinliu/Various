@@ -71,7 +71,12 @@ function submitComment() {
 		}),
 		dataType : 'json',
 		success : function(data) {
-			location.href = '/contract/view-contract/' + getLastPathFromUrl()
+			if(data.success){
+				location.href = '/contract/view-contract/' + getLastPathFromUrl()
+			}else{
+				alert(data.message);
+			}
+			
 		}
 	})
 }

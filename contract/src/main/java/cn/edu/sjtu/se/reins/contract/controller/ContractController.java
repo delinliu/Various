@@ -42,14 +42,14 @@ public class ContractController {
 		return "/WEB-INF/pages/list-register.jsp";
 	}
 
+	@RequestMapping(value = "/list-execute", method = RequestMethod.GET)
+	public String listExecute() {
+		return "/WEB-INF/pages/list-execute.jsp";
+	}
+
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		return "/WEB-INF/pages/logout.jsp";
-	}
-
-	@RequestMapping(value = "/create-contract", method = RequestMethod.GET)
-	public String createContractPage() {
-		return "/WEB-INF/pages/create-contract.jsp";
 	}
 
 	@RequestMapping(value = "/list-contracts", method = RequestMethod.GET)

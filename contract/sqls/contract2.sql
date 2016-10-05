@@ -61,6 +61,7 @@ create table paynode(
     `ContractManager` varchar(128),
     `ProjectManagerComments` varchar(1024),
     `ProjectManager` varchar(128),
+    `State` int default 0,
     foreign key (`ContractID`) references contract(`ContractID`)
 );
 
@@ -80,6 +81,7 @@ create table receivenode(
     `ContractManager` varchar(128),
     `ProjectManagerComments` varchar(1024),
     `ProjectManager` varchar(128),
+    `State` int default 0,
     foreign key (`ContractID`) references contract(`ContractID`)
 );
 

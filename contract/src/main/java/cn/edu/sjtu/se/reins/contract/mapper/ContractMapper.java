@@ -30,4 +30,15 @@ public interface ContractMapper {
 	List<Map<String, Object>> getContractByStateAndOperator(@Param("State") int state, @Param("Operator") String operator);
 	
 	void updateContract(Map<String, Object> map);
+	
+	/**
+	 * 按照ContractID和State筛选，按照PayDate升序排列，取出第一个付款节点
+	 */
+	Map<String, Object> getFirstPayNode(@Param("State") int state, @Param("ContractID") int contractID);
+	void updatePayNodeState(@Param("State") int state, @Param("PayNodeID") int payNodeID);
+	
+	
+	Map<String, Object> getFirstReceiveNode(@Param("State") int state, @Param("ContractID") int contractID);
+	void updateReceiveNodeState(@Param("State") int state, @Param("ReceiveNodeID") int receiveNodeID);
+	
 }

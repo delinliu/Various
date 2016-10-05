@@ -401,7 +401,11 @@ function createContract(parameters) {
 		data : JSON.stringify(parameters),
 		dataType : 'json',
 		success : function(data) {
-			location.href = '/contract/view-contract/' + data.value.ContractID
+			if(data.success){
+				location.href = '/contract/view-contract/' + data.value.ContractID
+			}else{
+				alert(data.message);
+			}
 		}
 	})
 }
@@ -414,7 +418,11 @@ function registerContract(parameters) {
 		data : JSON.stringify(parameters),
 		dataType : 'json',
 		success : function(data) {
-			location.href = '/contract/view-contract/' + parameters.ContractID
+			if(data.success){
+				location.href = '/contract/view-contract/' + parameters.ContractID
+			}else{
+				alert(data.message);
+			}
 		}
 	})
 }
