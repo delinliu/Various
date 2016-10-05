@@ -11,9 +11,12 @@
 	<li role="presentation"
 		<%="list-register".equals(request.getParameter("pageTitle")) ? "class=\"active\"" : ""%>><a
 		href="<%=request.getContextPath()%>/list-register">登记</a></li>
+	
+	<security:authorize access="hasRole('ROLE_CONTRACT_MANAGER') || hasRole('ROLE_PROJECT_MANAGER')">
 	<li role="presentation"
 		<%="list-verify".equals(request.getParameter("pageTitle")) ? "class=\"active\"" : ""%>><a
 		href="<%=request.getContextPath()%>/list-verify">审核</a></li>
+	</security:authorize>
 	<li role="presentation"
 		<%="list-contracts".equals(request.getParameter("pageTitle")) ? "class=\"active\"" : ""%>><a
 		href="<%=request.getContextPath()%>/list-contracts">查看合同登记表</a></li>
