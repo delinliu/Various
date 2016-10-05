@@ -39,7 +39,7 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/**" access="!hasRole('ROLE_ANONYMOUS')" />
 
-		<security:form-login default-target-url="/create-contract"></security:form-login>
+		<security:form-login default-target-url="/index"></security:form-login>
 
 		<security:csrf disabled="true" />
 	</security:http>

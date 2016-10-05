@@ -21,6 +21,11 @@ public class ContractController {
 
 	@Autowired
 	private ContractService contractServicecImpl;
+	
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String index() {
+		return "/WEB-INF/pages/index.jsp";
+	}
 
 	@RequestMapping(value = "/pre-register", method = RequestMethod.GET)
 	public String preRegister() {
