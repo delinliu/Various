@@ -7,10 +7,15 @@ public interface ContractService {
 
 	List<Map<String, Object>> getDict(String tableName);
 
-	void createContract(Map<String, Object> map) throws Exception;
-
+	Map<String, Object> createContract(Map<String, Object> map) throws Exception;
+	void registerContract(Map<String, Object> map) throws Exception;
+	
 	List<Map<String, Object>> getContracts();
 
+	List<Map<String, Object>> getVerifyContracts() throws Exception;
+	List<Map<String, Object>> getRegisterContracts() throws Exception;
+	
+	
 	Map<String, Object> getContract(int contractID);
 	
 	void commentContract(Map<String, Object> map) throws Exception;

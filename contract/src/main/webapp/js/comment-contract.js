@@ -1,29 +1,44 @@
-function initCommentTable() {
-	$('#comment-td-3').attr('contenteditable', true);
-	var commentType = getSearchArgs('comment-type');
-	var td1 = '';
-	var td2 = '';
-	switch (commentType) {
-	case '1':
-		td1 = '合同预登记审批记录';
-		td2 = '合同管理员审核意见';
-		break
-	case '2':
-		td1 = '合同预登记审批记录';
-		td2 = '项目分管领导审核意见';
-		break
-	case '3':
-		td1 = '合同正式登记审批记录';
-		td2 = '合同管理员审核意见';
-		break
-	case '4':
-		td1 = '合同正式登记审批记录';
-		td2 = '项目分管领导审核意见';
-		break
+var contract = null;
+var tdID = null;
+var defaultText = '请填写审核意见';
+function initCommentTable(data) {
+	contract = data.value;
+	var pageTitle = '';
+	switch(contract.State){
+	case 0:
+		tdID = 'PreRegisterContractManagerComments';
+		pageTitle = '合同管理员预审批';
+		break;
+	case 1:
+		tdID = 'PreRegisterProjectManagerComments';
+		pageTitle = '项目分管领导预审批';
+		break;
+	case 2:
+		break;
+	case 3:
+		tdID = 'FormalRegisterContractManagerComments';
+		pageTitle = '合同管理员正式审批';
+		break;
+	case 4:
+		tdID = 'FormalRegisterProjectManagerComments';
+		pageTitle = '项目分管领导正式审批';
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
 	}
-	$('#comment-td-1').text(td1);
-	$('#comment-td-2').text(td2);
-	$('#comment-td-3').focus()
+
+	disableEdit();
+	$('#' + tdID).attr('contenteditable', true);
+	$('#' + tdID).text(defaultText);
+	$('#' + tdID).css('background', '#FAEBD7')
+	$('#' + tdID).off('click').on('click', function(){
+		if($('#' + tdID).text() === defaultText){
+			$('#' + tdID).text('');
+		}
+	});
+	$('#title').text(pageTitle);
 } 
 
 function initCommentListener() {
@@ -31,11 +46,12 @@ function initCommentListener() {
 }
 
 function submitComment() {
-	var comment = $('#comment-td-3').text();
+	var comment = $('#' + tdID).text();
 	console.log(comment)
-	if(!comment){
+	if(!comment || comment === defaultText){
 		alert('请填写审核意见再提交。')
 	}
+	$('#comment-button').off('click');
 	$.ajax({
 		url : '/contract/comment-contract',
 		type : 'post',
@@ -47,7 +63,7 @@ function submitComment() {
 		}),
 		dataType : 'json',
 		success : function(data) {
-			console.log(data);
+			location.href = '/contract/view-contract/' + getLastPathFromUrl()
 		}
 	})
 }

@@ -4,8 +4,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -44,6 +47,21 @@ public class Util {
 			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
 					.getPrincipal();
 			return userDetails.getUsername();
+		} catch (Exception e) {
+			throw new Exception("你的登录已过期，请重新登录。", e);
+		}
+	}
+
+	public static Set<String> loginAuthorities() throws Exception {
+		
+		Set<String> set = new HashSet<>();
+		try {
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
+			for(GrantedAuthority authority : userDetails.getAuthorities()){
+				set.add(authority.toString());
+			}
+			return set;
 		} catch (Exception e) {
 			throw new Exception("你的登录已过期，请重新登录。", e);
 		}

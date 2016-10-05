@@ -26,13 +26,15 @@ function fillContract(parameters) {
 	for(var i=0; i<parameters['SubjectObjects'].length; i++){ 
 		$('input[name=object][value=' + parameters['SubjectObjects'][i]['SubjectObjectNumber'] + ']').attr('checked', true);
 	}
+	$('#object-other').val(parameters['SubjectObjectOther']);
 	for(var i=0; i<parameters['Departments'].length; i++){ 
 		$('input[name=department][value=' + parameters['Departments'][i]['DepartmentNumber'] + ']').attr('checked', true);
 	}
 	for(var i=0; i<parameters['ArchiveMaterials'].length; i++){ 
 		$('input[name=archive-material][value=' + parameters['ArchiveMaterials'][i]['ArchiveMaterialNumber'] + ']').attr('checked', true);
 	}
-	fillPayTimes(parameters['PayTimes']);
+	$('#archive-material-other').val(parameters['ArchiveMaterialOther']);
+	fillPayTimes(parameters['PayTimes']); 
 	fillReceiveTimes(parameters['ReceiveTimes']);
 	
 	var commentsArr = ['PreRegisterContractManagerComments', 'PreRegisterProjectManagerComments',
@@ -371,7 +373,7 @@ function createButtonClicked() {
 				checkTargetCompanyName(), checkArchiveMaterial());
 		$.extend(parameters, checkPaytimes());
 		$.extend(parameters, checkReceiveTimes());
-
+		$('#create-button').off('click');
 		createContract(parameters);
 	} catch (e) {
 		var element = e.element;
@@ -399,7 +401,20 @@ function createContract(parameters) {
 		data : JSON.stringify(parameters),
 		dataType : 'json',
 		success : function(data) {
-			console.log(data);
+			location.href = '/contract/view-contract/' + data.value.ContractID
+		}
+	})
+}
+
+function registerContract(parameters) {
+	$.ajax({
+		url : '/contract/register-contract',
+		type : 'post',
+		contentType : 'application/json',
+		data : JSON.stringify(parameters),
+		dataType : 'json',
+		success : function(data) {
+			location.href = '/contract/view-contract/' + parameters.ContractID
 		}
 	})
 }

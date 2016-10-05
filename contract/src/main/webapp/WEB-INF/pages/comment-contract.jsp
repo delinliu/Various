@@ -318,14 +318,14 @@
 						<td contenteditable=true id="FormalRegisterProjectManagerComments" colspan=2>待审核</td>
 					</tr>
 				</table>
-				<table class=" table-bordered"
-					style="vertical-align: middle; text-align: center;">
-					<tr style="height:400px"> 
-						<td class="table-key-width" id="comment-td-1">审核</td>
-						<td class="table-key-width" id="comment-td-2">审核</td>
-						<td contenteditable=true id="comment-td-3"></td>
-					</tr>
-				</table>
+<!-- 				<table class=" table-bordered" -->
+<!-- 					style="vertical-align: middle; text-align: center;"> -->
+<!-- 					<tr style="height:400px">  -->
+<!-- 						<td class="table-key-width" id="comment-td-1">审核</td> -->
+<!-- 						<td class="table-key-width" id="comment-td-2">审核</td> -->
+<!-- 						<td contenteditable=true id="comment-td-3"></td> -->
+<!-- 					</tr> -->
+<!-- 				</table> -->
 				<div class="text-center" style="margin-top: 30px">
 					<button id="comment-button" class="btn btn-primary">提交审核意见</button>
 				</div>

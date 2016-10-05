@@ -25,4 +25,9 @@ public interface ContractMapper {
 	void updatePreRegisterProjectManagerComments(Map<String, Object> map);
 	void updateFormalRegisterContractManagerComments(Map<String, Object> map);
 	void updateFormalRegisterProjectManagerComments(Map<String, Object> map);
+
+	List<Map<String, Object>> getContractByState(@Param("State") int state);
+	List<Map<String, Object>> getContractByStateAndOperator(@Param("State") int state, @Param("Operator") String operator);
+	
+	void updateContract(Map<String, Object> map);
 }

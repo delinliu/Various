@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,13 +32,56 @@ public class ContractServiceImpl implements ContractService {
 			return null;
 		}
 	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void createContract(Map<String, Object> map) throws Exception {
+	public void registerContract(Map<String, Object> map) throws Exception {
+		int contractID = (int) map.get("ContractID");
 		Map<String, Object> param = new HashMap<>();
-		param.put("Number", String.valueOf(map.get("Number")));
+		fillContractBasicInfo(param, map);
+		param.put("State", 3);
+		param.put("ContractID", contractID);
+		contractMapper.updateContract(param);
+		List<Map<String, Object>> payNodes = (List<Map<String, Object>>) map.get("PayTimes");
+		if (payNodes != null) {
+			for (Map<String, Object> payNode : payNodes) {
+				Map<String, Object> node = new HashMap<>();
+				node.put("ContractID", contractID);
+				node.put("Type", Integer.parseInt(String.valueOf(payNode.get("Type"))));
+				node.put("ExpectedMoney", String.valueOf(payNode.get("ExpectedMoney")));
+				node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(payNode.get("ExpectedCurrency"))));
+				node.put("PayCondition", String.valueOf(payNode.get("PayCondition")));
+				node.put("PayDate", Util.string2date(String.valueOf(payNode.get("PayDate"))));
+				node.put("PayCredential", String.valueOf(payNode.get("PayCredential")));
+//				node.put("ActualMoney", String.valueOf(payNode.get("ActualMoney")));
+//				node.put("ActualCurrency", Integer.parseInt(String.valueOf(payNode.get("ActualCurrency"))));
+//				node.put("PayType", Integer.parseInt(String.valueOf(payNode.get("PayType"))));
+//				node.put("IsCredentialFiled", Boolean.parseBoolean(String.valueOf(payNode.get("IsCredentialFiled"))));
+//				node.put("Composition", String.valueOf(payNode.get("Composition")));
+				contractMapper.createPayNode(node);
+			}
+		}
+		List<Map<String, Object>> receiveNodes = (List<Map<String, Object>>) map.get("ReceiveTimes");
+		if (receiveNodes != null) {
+			for (Map<String, Object> receiveNode : receiveNodes) {
+				Map<String, Object> node = new HashMap<>();
+				node.put("ContractID", contractID);
+				node.put("Type", Integer.parseInt(String.valueOf(receiveNode.get("Type"))));
+				node.put("ExpectedMoney", String.valueOf(receiveNode.get("ExpectedMoney")));
+				node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ExpectedCurrency"))));
+				node.put("ReceiveCondition", String.valueOf(receiveNode.get("ReceiveCondition")));
+				node.put("ReceiveDate", Util.string2date(String.valueOf(receiveNode.get("ReceiveDate"))));
+//				node.put("ActualMoney", String.valueOf(receiveNode.get("ActualMoney")));
+//				node.put("ActualCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ActualCurrency"))));
+//				node.put("InvoiceState", Integer.parseInt(String.valueOf(receiveNode.get("InvoiceState"))));
+				contractMapper.createReceiveNode(node);
+			}
+		}
+	}
+	
+	private void fillContractBasicInfo(Map<String, Object> param, Map<String, Object> map) throws Exception{
+		param.put("CreatedUsername", Util.loginUsername());
+		param.put("Number", (String) map.get("Number"));
 		param.put("Name", String.valueOf(map.get("Name")));
 		param.put("FinancialFlow", Integer.parseInt(String.valueOf(map.get("FinancialFlow"))));
 		param.put("IsForeignContract", Boolean.parseBoolean(String.valueOf(map.get("IsForeignContract"))));
@@ -56,43 +100,15 @@ public class ContractServiceImpl implements ContractService {
 		param.put("ArchiveMaterialOther", String.valueOf(map.get("ArchiveMaterialOther")));
 		param.put("StartDate", Util.string2date(String.valueOf(map.get("StartDate"))));
 		param.put("EndDate", Util.string2date(String.valueOf(map.get("EndDate"))));
+	}
+	
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Map<String, Object> createContract(Map<String, Object> map) throws Exception {
+		Map<String, Object> param = new HashMap<>();
+		fillContractBasicInfo(param, map);
 		contractMapper.createContract(param);
-		long contractID = (long) param.get("ContractID");
-		List<Map<String, Object>> payNodes = (List<Map<String, Object>>) map.get("PayTimes");
-		if (payNodes != null) {
-			for (Map<String, Object> payNode : payNodes) {
-				Map<String, Object> node = new HashMap<>();
-				node.put("ContractID", contractID);
-				node.put("Type", Integer.parseInt(String.valueOf(payNode.get("Type"))));
-				node.put("ExpectedMoney", String.valueOf(payNode.get("ExpectedMoney")));
-				node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(payNode.get("ExpectedCurrency"))));
-				node.put("PayCondition", String.valueOf(payNode.get("PayCondition")));
-				node.put("PayDate", Util.string2date(String.valueOf(payNode.get("PayDate"))));
-				node.put("PayCredential", String.valueOf(payNode.get("PayCredential")));
-				node.put("ActualMoney", String.valueOf(payNode.get("ActualMoney")));
-				node.put("ActualCurrency", Integer.parseInt(String.valueOf(payNode.get("ActualCurrency"))));
-				node.put("PayType", Integer.parseInt(String.valueOf(payNode.get("PayType"))));
-				node.put("IsCredentialFiled", Boolean.parseBoolean(String.valueOf(payNode.get("IsCredentialFiled"))));
-				node.put("Composition", String.valueOf(payNode.get("Composition")));
-				contractMapper.createPayNode(node);
-			}
-		}
-		List<Map<String, Object>> receiveNodes = (List<Map<String, Object>>) map.get("ReceiveTimes");
-		if (receiveNodes != null) {
-			for (Map<String, Object> receiveNode : receiveNodes) {
-				Map<String, Object> node = new HashMap<>();
-				node.put("ContractID", contractID);
-				node.put("Type", Integer.parseInt(String.valueOf(receiveNode.get("Type"))));
-				node.put("ExpectedMoney", String.valueOf(receiveNode.get("ExpectedMoney")));
-				node.put("ExpectedCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ExpectedCurrency"))));
-				node.put("ReceiveCondition", String.valueOf(receiveNode.get("ReceiveCondition")));
-				node.put("ReceiveDate", Util.string2date(String.valueOf(receiveNode.get("ReceiveDate"))));
-				node.put("ActualMoney", String.valueOf(receiveNode.get("ActualMoney")));
-				node.put("ActualCurrency", Integer.parseInt(String.valueOf(receiveNode.get("ActualCurrency"))));
-				node.put("InvoiceState", Integer.parseInt(String.valueOf(receiveNode.get("InvoiceState"))));
-				contractMapper.createReceiveNode(node);
-			}
-		}
+		return param;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -150,31 +166,56 @@ public class ContractServiceImpl implements ContractService {
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void commentContract(Map<String, Object> map) throws Exception {
-		int commentType = Integer.parseInt(String.valueOf(map.get("CommentType")));
 		int contractID = Integer.parseInt(String.valueOf(map.get("ContractID")));
+		Map<String, Object> contract = contractMapper.getContract(contractID);
 		String username = Util.loginUsername();
 		Map<String, Object> param = new HashMap<>();
 		param.put("Username", username);
 		param.put("Comments", String.valueOf(map.get("Comment")));
 		param.put("ContractID", contractID);
-		switch (commentType) {
-		case 1: // 预登记审批：合同管理员审核意见
+		switch ((int)contract.get("State")) {
+		case 0: // 预登记审批：合同管理员审核意见
+			param.put("State", 1);
 			contractMapper.updatePreRegisterContractManagerComments(param);
 			break;
-		case 2: // 预登记审批：项目分管领导审核意见
+		case 1: // 预登记审批：项目分管领导审核意见
+			param.put("State", 2);
 			contractMapper.updatePreRegisterProjectManagerComments(param);
 			break;
 		case 3: // 正式登记审批：合同管理员审核意见
+			param.put("State", 4);
 			contractMapper.updateFormalRegisterContractManagerComments(param);
 			break;
 		case 4: // 正式登记审批：项目分管领导审核意见
+			param.put("State", 5);
 			contractMapper.updateFormalRegisterProjectManagerComments(param);
 			break;
-		case 5: // 付款节点审批：合同管理员审核意见
-			break;
-		case 6: // 收款节点审批：合同管理员审核意见
-			break;
+		default:
+			throw new Exception("审批失败，请稍后再试");
 		}
+	}
+
+	@Override
+	public List<Map<String, Object>> getVerifyContracts() throws Exception {
+		Set<String> authorities = Util.loginAuthorities();
+		List<Map<String, Object>> list = new ArrayList<>();
+		if(authorities.contains("ROLE_CONTRACT_MANAGER")){
+			list.addAll(contractMapper.getContractByState(0));
+			list.addAll(contractMapper.getContractByState(3));
+		}
+		if(authorities.contains("ROLE_PROJECT_MANAGER")){
+			list.addAll(contractMapper.getContractByState(1));
+			list.addAll(contractMapper.getContractByState(4));
+		}
+		return list;
+	}
+
+	@Override
+	public List<Map<String, Object>> getRegisterContracts() throws Exception {
+		String username = Util.loginUsername();
+		List<Map<String, Object>> list = contractMapper.getContractByStateAndOperator(2, username);
+		return list;
 	}
 }

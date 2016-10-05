@@ -27,6 +27,16 @@ public class ContractController {
 		return "/WEB-INF/pages/pre-register.jsp";
 	}
 
+	@RequestMapping(value = "/list-verify", method = RequestMethod.GET)
+	public String listVerify() {
+		return "/WEB-INF/pages/list-verify.jsp";
+	}
+
+	@RequestMapping(value = "/list-register", method = RequestMethod.GET)
+	public String listRegister() {
+		return "/WEB-INF/pages/list-register.jsp";
+	}
+
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout() {
 		return "/WEB-INF/pages/logout.jsp";
@@ -52,15 +62,31 @@ public class ContractController {
 		return "/WEB-INF/pages/comment-contract.jsp";
 	}
 
+	@RequestMapping(value = "/register-contract/{ContractID}", method = RequestMethod.GET)
+	public String registerContractPage() {
+		return "/WEB-INF/pages/register-contract.jsp";
+	}
+
 	@RequestMapping(value = "/create-contract", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public Map<String, Object> createContract(@RequestBody Map<String, Object> parameters) {
 		try {
-			contractServicecImpl.createContract(parameters);
-			return Util.createMap(null);
+			return Util.createMap(contractServicecImpl.createContract(parameters));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Util.createErrorMap("创建合同表失败，请稍后再试或联系管理员。");
+		}
+	}
+
+	@RequestMapping(value = "/register-contract", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public Map<String, Object> updateContract(@RequestBody Map<String, Object> parameters) {
+		try {
+			contractServicecImpl.registerContract(parameters);
+			return Util.createMap(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Util.createErrorMap("操作失败，请稍后再试或联系管理员。");
 		}
 	}
 
@@ -69,6 +95,28 @@ public class ContractController {
 	public Map<String, Object> getContracts() {
 		try {
 			return Util.createMap(contractServicecImpl.getContracts());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Util.createErrorMap("获取合同表失败，请稍后再试或联系管理员。");
+		}
+	}
+
+	@RequestMapping(value = "/get-verify-contracts", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getVerifyContracts() {
+		try {
+			return Util.createMap(contractServicecImpl.getVerifyContracts());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Util.createErrorMap("获取合同表失败，请稍后再试或联系管理员。");
+		}
+	}
+
+	@RequestMapping(value = "/get-register-contracts", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getRegisterContracts() {
+		try {
+			return Util.createMap(contractServicecImpl.getRegisterContracts());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Util.createErrorMap("获取合同表失败，请稍后再试或联系管理员。");

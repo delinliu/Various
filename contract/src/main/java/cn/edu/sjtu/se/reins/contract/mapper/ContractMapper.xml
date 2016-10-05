@@ -7,17 +7,43 @@
 	</select>
 	
 	<insert id="createContract"  useGeneratedKeys="true" keyProperty="ContractID">
-		insert into contract(Number, Name, FinancialFlow, IsForeignContract,
+		insert into contract(CreatedUsername, Number, Name, FinancialFlow, IsForeignContract,
 			Description, SubjectObjects, SubjectObjectOther, FundsType,
 			Departments, Operator, ProjectNumber, BudgetNumber,
 			Money, Currency, StartDate, EndDate, TargetCompanyName,
-			ArchiveMaterials, ArchiveMaterialOther)
-		values(#{Number}, #{Name}, #{FinancialFlow}, #{IsForeignContract},
+			ArchiveMaterials, ArchiveMaterialOther, State)
+		values(#{CreatedUsername}, #{Number}, #{Name}, #{FinancialFlow}, #{IsForeignContract},
 			#{Description}, #{SubjectObjects}, #{SubjectObjectOther}, #{FundsType},
 			#{Departments}, #{Operator}, #{ProjectNumber}, #{BudgetNumber},
 			#{Money}, #{Currency}, #{StartDate}, #{EndDate}, #{TargetCompanyName},
-			#{ArchiveMaterials}, #{ArchiveMaterialOther});
+			#{ArchiveMaterials}, #{ArchiveMaterialOther}, 0);
 	</insert>
+	
+	<update id="updateContract">
+		update contract
+		set CreatedUsername=#{CreatedUsername},
+			Number=#{Number},
+			Name=#{Name},
+			FinancialFlow=#{FinancialFlow},
+			IsForeignContract=#{IsForeignContract},
+			Description=#{Description},
+			SubjectObjects=#{SubjectObjects},
+			SubjectObjectOther=#{SubjectObjectOther},
+			FundsType=#{FundsType},
+			Departments=#{Departments},
+			Operator=#{Operator},
+			ProjectNumber=#{ProjectNumber},
+			BudgetNumber=#{BudgetNumber},
+			Money=#{Money},
+			Currency=#{Currency},
+			StartDate=#{StartDate},
+			EndDate=#{EndDate},
+			TargetCompanyName=#{TargetCompanyName},
+			ArchiveMaterials=#{ArchiveMaterials},
+			ArchiveMaterialOther=#{ArchiveMaterialOther},
+			State=#{State}
+		where ContractID = #{ContractID}
+	</update>
 
 	<select id="getContracts" resultType="map">
 		select ContractID, Number, Name, Operator,
@@ -29,6 +55,16 @@
 	<select id="getContract" resultType="map">
 		select * from contract
 		where ContractID=#{ContractID};
+	</select>
+
+	<select id="getContractByState" resultType="map">
+		select * from contract
+		where State=#{State};
+	</select>
+
+	<select id="getContractByStateAndOperator" resultType="map">
+		select * from contract
+		where State=#{State} and (Operator=#{Operator} or CreatedUsername=#{Operator});
 	</select>
 	
 	<insert id="createPayNode">
@@ -58,25 +94,29 @@
 	<update id="updatePreRegisterContractManagerComments">
 		update contract
 		set PreRegisterContractManagerComments=#{Comments},
-			PreRegisterContractManager=#{Username}
+			PreRegisterContractManager=#{Username},
+			State=#{State}
 		where ContractID=#{ContractID};
 	</update>
 	<update id="updatePreRegisterProjectManagerComments">
 		update contract
 		set PreRegisterProjectManagerComments=#{Comments},
-			PreRegisterProjectManager=#{Username}
+			PreRegisterProjectManager=#{Username},
+			State=#{State}
 		where ContractID=#{ContractID};
 	</update>
 	<update id="updateFormalRegisterContractManagerComments">
 		update contract
 		set FormalRegisterContractManagerComments=#{Comments},
-			FormalRegisterContractManager=#{Username}
+			FormalRegisterContractManager=#{Username},
+			State=#{State}
 		where ContractID=#{ContractID};
 	</update>
 	<update id="updateFormalRegisterProjectManagerComments">
 		update contract
 		set FormalRegisterProjectManagerComments=#{Comments},
-			FormalRegisterProjectManager=#{Username}
+			FormalRegisterProjectManager=#{Username},
+			State=#{State}
 		where ContractID=#{ContractID};
 	</update>
 </mapper>

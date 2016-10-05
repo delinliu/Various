@@ -3,6 +3,12 @@ use testdb;
 
 start transaction;
 
+drop table if exists account_role_rel;
+drop table if exists contract_role;
+drop table if exists receivenode;
+drop table if exists paynode;
+drop table if exists contract;
+
 create table contract(
 	`ContractID` int auto_increment primary key,
     `CreatedUsername` varchar(128), # 创建本合同的人
@@ -32,7 +38,8 @@ create table contract(
     `FormalRegisterContractManagerComments` varchar(1024),
     `FormalRegisterContractManager` varchar(128),
     `FormalRegisterProjectManagerComments` varchar(1024),
-    `FormalRegisterProjectManager` varchar(128)
+    `FormalRegisterProjectManager` varchar(128),
+    `State` int default 0
 );
 
 create table paynode(
@@ -96,20 +103,26 @@ create table `account_role_rel`(
 );
 
 # 没有审核权限
+delete from employee where EmployeeNumber='delin';
 insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
 values ('delin', '123456', 'ldl434020@126.com');
 
 # 全部权限
+delete from employee where EmployeeNumber='admin';
 insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
 values ('admin', '123456', 'ldl434020@126.com');
 
 # 合同管理员
+delete from employee where EmployeeNumber='ContractMng1';
+delete from employee where EmployeeNumber='ContractMng2';
 insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
 values ('ContractMng1', '123456', 'ldl434020@126.com');
 insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
 values ('ContractMng2', '123456', 'ldl434020@126.com');
 
 # 项目分管领导
+delete from employee where EmployeeNumber='ProjectMng1';
+delete from employee where EmployeeNumber='ProjectMng2';
 insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)
 values ('ProjectMng1', '123456', 'ldl434020@126.com');
 insert into employee(EmployeeNumber, LoginPassword, EmployeeEmail)

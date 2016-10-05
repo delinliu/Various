@@ -7,7 +7,7 @@ function getContractFromServer(ContractID, callback) {
 		success : function(data) {
 			showContract(data);
 			if(callback){
-				callback();
+				callback(data);
 			}
 		}
 	})
@@ -16,9 +16,8 @@ function getContractFromServer(ContractID, callback) {
 function showContract(data) {
 	var contract = data.value;
 	console.log(contract)
-	$('#title').text('合同表' + contract['Number']);
+	$('#title').text('合同表' + (contract['Number']?contract['Number']:''));
 	fillContract(contract);
-	disableEdit();
 }
 
 function disableEdit() {

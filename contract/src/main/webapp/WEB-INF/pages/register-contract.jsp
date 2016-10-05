@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
@@ -21,16 +23,17 @@
 <script src="<%=request.getContextPath()%>/js/util.js"></script>
 <script src="<%=request.getContextPath()%>/js/contract.js"></script>
 <script src="<%=request.getContextPath()%>/js/view-contract.js"></script>
+<script src="<%=request.getContextPath()%>/js/register-contract.js"></script>
 </head>
 <body>
 	<div class="container text-center">
 		<jsp:include page="header.jsp"></jsp:include>
 		<div class="row">
 			<jsp:include page="nav.jsp">
-				<jsp:param name="pageTitle" value="view-contract"/>  
+				<jsp:param name="pageTitle" value="register-contract"/>  
 			</jsp:include>
 			<div class="text-center col-md-10">
-				<h1 id="title"></h1>
+				<h1>合同登记表预登记</h1>
 				<table class=" table-bordered"
 					style="vertical-align: middle; text-align: center;">
 					<tr>
@@ -80,7 +83,7 @@
 							<input type="checkbox" name="department" value=2>电子部<br>
 							<input type="checkbox" name="department" value=3>软件部</td>
 						<td class="table-key-width">合同经办人</td>
-						<td id="operator" class="table-value-width" contentEditable=true></td>
+						<td id="operator" class="table-value-width" contentEditable=true><security:authentication property="principal.username" /></td>
 					</tr>
 					<tr>
 						<td class="table-key-width">课题号</td>
@@ -292,7 +295,7 @@
 					<tr id=""></tr>
 				</table>
 				<table class=" table-bordered"
-					style="vertical-align: middle; text-align: center;">
+					style="display:none; vertical-align: middle; text-align: center;">
 					<tr style="height:200px"> 
 						<td class="table-key-width" rowspan=2 colspan=1>合同预登记审批记录</td>
 						<td class="table-key-width" colspan=1>合同管理员审核意见</td>
@@ -313,6 +316,9 @@
 						<td contenteditable=true id="FormalRegisterProjectManagerComments" colspan=2>待审核</td>
 					</tr>
 				</table>
+				<div class="text-center" style="margin-top: 30px">
+					<button id="register-button" class="btn btn-primary">正 式 登 记</button> 
+				</div>
 			</div>
 			<div style="height: 100px"></div>
 			<div id="error-hint-div" class="alert alert-danger" role="alert"
@@ -327,7 +333,7 @@
 	$(function() {
 		emptyAllNodes();
 		var ContractID = getLastPathFromUrl();
-		getContractFromServer(ContractID, disableEdit);
+		getContractFromServer(ContractID, initRegister);
 	});
 	</script>
 </body>

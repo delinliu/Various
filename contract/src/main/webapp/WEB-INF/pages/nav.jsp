@@ -9,6 +9,9 @@
 		<%="pre-register".equals(request.getParameter("pageTitle")) ? "class=\"active\"" : ""%>><a
 		href="<%=request.getContextPath()%>/pre-register">预登记</a></li>
 	<li role="presentation"
+		<%="list-register".equals(request.getParameter("pageTitle")) ? "class=\"active\"" : ""%>><a
+		href="<%=request.getContextPath()%>/list-register">登记</a></li>
+	<li role="presentation"
 		<%="list-verify".equals(request.getParameter("pageTitle")) ? "class=\"active\"" : ""%>><a
 		href="<%=request.getContextPath()%>/list-verify">审核</a></li>
 	<li role="presentation"
