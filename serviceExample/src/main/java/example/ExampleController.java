@@ -1,4 +1,4 @@
-package myperformance;
+package example;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/")
-public class MyPerformanceController {
+public class ExampleController {
 	@RequestMapping(value = "/api", method = RequestMethod.GET)
 	@ResponseBody
 	public String api() throws IOException {
