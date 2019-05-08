@@ -13,6 +13,6 @@ public class ExampleController {
 	@RequestMapping(value = "/api", method = RequestMethod.GET)
 	@ResponseBody
 	public String api() throws IOException {
-		return "timestamp: " + System.currentTimeMillis();
+		return "timestamp: " + System.currentTimeMillis() + "\n";
 	}
 }
